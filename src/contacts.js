@@ -15,12 +15,22 @@ function addContacts() {
 contacts.addEventListener("scroll", (e) => {
   const items = Array.from(contacts.getElementsByClassName("contact"));
   const itemOffsets = items.map((item) => item.offsetTop);
-  const topItemIndex = itemOffsets.findIndex(
-    (offset) => contacts.scrollTop - offset <= -18
-  );
-  if (topItemIndex !== -1) {
-    stickyHeader.textContent = items[topItemIndex].textContent;
+  
+  let left=0;
+  let right=itemOffsets.length-1;
+  let sr=Math.floor((left+right)/2);
+  while(1!=0)
+  {
+    if(contacts.scrollTop-itemOffsets[sr-1]>-18&&contacts.scrollTop-itemOffsets[sr]<=-18)
+    break;
+     if(contacts.scrollTop-itemOffsets[sr]<=-18)
+      right=sr;
+      else left=sr;
+      sr=Math.floor((left+right)/2);
+      if(sr<=1)
+      break;
   }
+    stickyHeader.textContent = items[sr].textContent;
 });
 
 addContacts();
